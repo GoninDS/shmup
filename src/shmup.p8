@@ -14,6 +14,8 @@ function _init()
 	plasma_y=0
 	ship_sprite=2
 	flame_sprite=4
+	muzzle=0
+	flash=0
 end
 
 function _update()
@@ -28,6 +30,15 @@ function _draw()
 	spr(16,plasma_x,plasma_y)
 	spr(ship_sprite,ship_x,ship_y)
 	spr(flame_sprite,ship_x,ship_y+8)
+	if muzzle > 0 then
+		circfill(ship_x,ship_y,muzzle,8)
+		circfill(ship_x+7,ship_y,muzzle,8)
+		muzzle-=0.25		
+	end
+	if flash > 0 then
+		circfill(ship_x+3,ship_y-1,flash,7)
+		flash-=1
+	end
 end
 
 function ship_movement()
@@ -77,11 +88,13 @@ function shoot()
 	bullet_y+=-4
 	plasma_y+=-2.5
 	if btnp(5) then
+		muzzle=2
 		bullet_x=ship_x
 		bullet_y=ship_y-4
 		sfx(0)
 	end
 	if btnp(4) then
+		--flash=5
 		plasma_x=ship_x
 		plasma_y=ship_y-4
 		sfx(1)
